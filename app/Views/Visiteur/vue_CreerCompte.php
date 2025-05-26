@@ -18,7 +18,7 @@
   <br>';
 
   echo form_label('Prenom','txtPrenom');
-  echo form_password('txtPrenom', set_value('txtPrenom'));   
+  echo form_input('txtPrenom', set_value('txtPrenom'));   
 
   echo'
   <br>
@@ -32,14 +32,14 @@
   <br>';
 
   echo form_label('CodePostal','txtCodePostal');
-  echo form_password('txtCodePostal', set_value('txtCodePostal'));  
+  echo form_input('txtCodePostal', set_value('txtCodePostal'));  
   
   echo'
   <br>
   <br>';
 
   echo form_label('Ville','txtVille');
-  echo form_password('txtVille', set_value('txtVille'));   
+  echo form_input('txtVille', set_value('txtVille'));   
 
   echo'
   <br>
@@ -60,7 +60,7 @@
   <br>';
 
   echo form_label('Mel','txtMel');
-  echo form_password('txtMel', set_value('txtMel'));    
+  echo form_input('txtMel', set_value('txtMel'));    
 
   echo'
   <br>

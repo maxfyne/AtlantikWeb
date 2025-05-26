@@ -2,6 +2,10 @@
 
 namespace App\Controllers;
 use App\Models\ModeleClient; //donne accès à la classe ModeleClient
+use App\Models\ModeleLiaisonSecteur;
+use App\Models\ModeleTarifLiaison;
+use App\Models\ModeleSecteur;
+use App\Models\ModeleTraversee;
 
 class Visiteur extends BaseController
 {
@@ -191,7 +195,6 @@ class Visiteur extends BaseController
             $session->set('nom', $ClientRetourne->NOM);
             $session->set('prenom', $ClientRetourne->PRENOM);
 
-            $data['noclient'] = $noclient;
             echo view('Templates/Header', $data);
             echo view('Visiteur/vue_ConnexionReussie');
             echo view('Templates/Footer');
@@ -219,6 +222,98 @@ class Visiteur extends BaseController
     //////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////
 
-    SELECT s.NOM, l.NOLIAISON, l.DISTANCE, pd.NOM, pa.NOM FROM secteur s inner join liaison l on (s.NOSECTEUR = l.NOSECTEUR) inner join port pd on (l.NOPORT_DEPART = pd.NOPORT) inner join port pa on (l.NOPORT_ARRIVEE = pa.NOPORT); 
+    public function voirCommandesProduits()
+    {
+    
+      $modeleLiaisonSecteur = new ModeleLiaisonSecteur(); //instanciation du modèle
+      $data['lesLiaisons'] = $modeleLiaisonSecteur->getAllLiaisonSecteur();
+      
+      //var_dump($data['lesLiaisons']);
+      //die();  
+
+      $data['TitreDeLaPage'] = "Liste des Secteurs avec leurs liaisons";
+  
+      return view('Templates/Header')
+      . view('Visiteur/vue_VoirLiaisonSecteur', $data)
+      . view('Templates/Footer');
+  
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+
+    public function voirTarifLiaison()
+    {
+
+      $modeleTarifLiaison = new ModeleTarifLiaison(); //instanciation du modèle
+      $recherche = $this->request->getGet('recherche');
+      $data['lesTarifs'] = $modeleTarifLiaison->getAllTarifLiaison($recherche);
+
+      
+      //var_dump($data['lesLiaisons']);
+      //die();
+
+      $data['TitreDeLaPage'] = "Liste des Secteurs avec leurs liaisons";
+  
+      return view('Templates/Header')
+      . view('Visiteur/vue_VoirTarif', $data)
+      . view('Templates/Footer');
+
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+
+    public function voirhorairesSecteurs($noSecteur = null)
+    {
+        $modSecteur = new ModeleSecteur();
+        $modTraversee = new ModeleTraversee();
+        $data['lesSecteurs'] = $modSecteur->findAll();
+        $data['lesTraversees'] = [];
+    
+        if ($noSecteur !== null) {
+            $data['lesLiaisons'] = $modSecteur->getAllLiaisonSecteur($noSecteur);
+            $data['noSecteur'] = $noSecteur;
+        } else {
+            $data['lesLiaisons'] = [];
+            $data['noSecteur'] = null;
+        }
+
+        // Si le bouton "Afficher les traversées" a été cliqué
+        if ($this->request->getMethod() === 'post' && $this->request->getPost('valid')) 
+        {
+            $noLiaison = $this->request->getPost('liaison');
+            $date = $this->request->getPost('date');
+
+            // Appel au modèle
+            $data['lesTraversees'] = $modTraversee->getAllhorairesLiaison($noLiaison, $date);
+        }
+    
+        $data['TitreDeLaPage'] = 'Voir les horaires';
+    
+        return view('Templates/Header')
+            . view('Visiteur/vue_VoirHorairesSecteurs', $data)
+            . view('Templates/Footer');
+
+
+    } // Fin voirhorairesSecteurs
+
+
 
 }

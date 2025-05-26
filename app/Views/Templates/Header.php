@@ -10,26 +10,28 @@
       <a class="nav-link" href="/compte">CréationCompte</a>
     </li>
 
-
-////
     <li class="nav-item">
       <a class="nav-link" href="/connexion">Connexion</a>
     </li>
-////
-
 
     <li class="nav-item">
       <a class="nav-link" href="/liaison">LiaisonParSecteur</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Horaires</a>
+      <a class="nav-link" href="/tarifs">TarifParLiaison</a>
     </li>
+
     <li class="nav-item">
-      <a class="nav-link" href="#">Reserver</a>
+      <a class="nav-link" href="/horaires">Horaires</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/">Test</a>
-    </li>
-  </ul>
+    
+
+  </ul>';
+  $session = session(); 
+  if ($session->get('prenom'))
+  {
+      echo 'Connecté en tant que '. $session->get('prenom');
+  }
+  echo'
   </div>
   </nav> ';
