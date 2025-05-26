@@ -44,9 +44,6 @@ public function getAllhorairesLiaison($nosecteur, $noLiaison = null, $date = nul
     {
         $res->where('DATE(t.DATEHEUREDEPART)', $date);
     }
-   ////////////////////////////////////
-   //->where('s.NOSECTEUR', $noSecteur)
-   ////////////////////////////////////
    $res->getResult();
 
    //var_dump($res); OK

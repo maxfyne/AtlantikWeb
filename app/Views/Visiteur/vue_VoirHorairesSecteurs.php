@@ -51,9 +51,40 @@
             <?php
 
 
-            //////////////////////////////////////////////////////
-            //////////////CODE POOUR LE MODELE TRAVERSEE////////////////////
-            //////////////////////////////////////////////////////
+
+            // Appel au modèle Traversee pour récupérer les traversées
+            if (isset($_POST['valid'])) 
+            {
+                $noLiaison = $_POST['liaison'];
+                $date = $_POST['date'];
+  
+                $modTraversee = new \App\Models\ModeleTraversee();
+                $lesTraversees = $modTraversee->getAllhorairesLiaison($noLiaison, $date);
+  
+                echo '<h3 class="mt-4">Traversées disponibles :</h3>';
+                if (!empty($lesTraversees)) {
+                    echo '<table class="table table-bordered">';
+                    echo '<thead><tr><th>Départ</th><th>Bateau</th><th>Catégorie</th><th>Type</th><th>Places disponibles</th></tr></thead><tbody>';
+                    foreach ($lesTraversees as $traversee) {
+                        echo '<tr>';
+                        echo '<td>' . $traversee->DATEHEUREDEPART . '</td>';
+                        echo '<td>' . $traversee->NOM_BATEAU . '</td>';
+                        echo '<td>' . $traversee->LETTRECATEGORIE . '</td>';
+                        echo '<td>' . $traversee->NOTYPE . '</td>';
+                        echo '<td>' . $traversee->PLACES_DISPO . '</td>';
+                        echo '</tr>';
+                    }
+                    echo '</tbody></table>';
+                } 
+                else 
+                {
+                    echo '<p>Aucune traversée disponible pour cette date.</p>';
+                }
+            }
+            else
+            {
+                echo '<h1>Aucune liaison trouvée pour ce secteur</h1>';
+            }
         }
         else
         {
