@@ -21,4 +21,4 @@ $routes->get('horaires/(:alphanum)', 'Visiteur::voirhorairesSecteurs/$1', ["filt
 
 $routes->get('horaires', 'Visiteur::voirhorairesSecteurs', ["filter"=> "filtreclient"]);
 
-$routes->match(['get', 'post'], 'modifier', 'Client::modifierClient', ["filter"=> "filtreclient"]);
+$routes->match(['get', 'post'], 'modifier', 'Client::modifierCompte', ["filter"=> "filtreclient"]);
