@@ -24,10 +24,14 @@
     <li class="nav-item">
       <a class="nav-link" href="/horaires">Horaires</a>
     </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="/modifier">ModifierCompte</a>
+    </li>
     
 
   </ul>';
-  $session = session(); 
+  $session = session();
   if ($session->get('prenom'))
   {
       echo 'Connecté en tant que '. $session->get('prenom');
