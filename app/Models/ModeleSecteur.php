@@ -42,7 +42,7 @@ public function getAllLiaison($recherche = null)
    ->join('port pde', 'l.NOPORT_DEPART = pde.NOPORT',  'inner')
    ->join('port pae', 'l.NOPORT_ARRIVEE = pae.NOPORT',  'inner')
    ->select('s.NOM, l.NOLIAISON, l.DISTANCE, pde.NOM as PortDepart, pae.NOM as PortArrivee')
-   //->where('s.NOSECTEUR', $noSecteur)
+   ->where('s.NOSECTEUR', $nosecteur)
    ->get()
    ->getResult();
 
@@ -55,5 +55,6 @@ public function getAllLiaison($recherche = null)
    // ->get() : pour générer le tableau automatiquement,
    // si non : ->get()->getResult();  (voir vue associée)
  }
+
 
 }

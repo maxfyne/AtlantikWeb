@@ -17,7 +17,7 @@ $routes->get('liaison', 'Visiteur::voirCommandesProduits', ["filter"=> "filtrecl
 
 $routes->get('tarifs', 'Visiteur::voirTarifLiaison', ["filter"=> "filtreclient"]);
 
-$routes->get('horaires/(:alphanum)', 'Visiteur::voirhorairesSecteurs/$1', ["filter"=> "filtreclient"]);
+$routes->match(['get', 'post'], 'horaires/(:alphanum)', 'Visiteur::voirhorairesSecteurs/$1', ["filter"=> "filtreclient"]);
 
 $routes->get('horaires', 'Visiteur::voirhorairesSecteurs', ["filter"=> "filtreclient"]);
 

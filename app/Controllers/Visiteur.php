@@ -282,8 +282,12 @@ class Visiteur extends BaseController
 
     public function voirhorairesSecteurs($noSecteur = null)
     {
+        helper('form');
+    
         $modSecteur = new ModeleSecteur();
         $modTraversee = new ModeleTraversee();
+    
+        // Chargement de tous les secteurs pour affichage dans la vue
         $data['lesSecteurs'] = $modSecteur->findAll();
         $data['lesTraversees'] = [];
     
@@ -294,25 +298,29 @@ class Visiteur extends BaseController
             $data['lesLiaisons'] = [];
             $data['noSecteur'] = null;
         }
-
-        // Si le bouton "Afficher les traversées" a été cliqué
-        if ($this->request->getMethod() === 'post' && $this->request->getPost('valid')) 
-        {
-            $noLiaison = $this->request->getPost('liaison');
-            $date = $this->request->getPost('date');
-
-            // Appel au modèle
-            $data['lesTraversees'] = $modTraversee->getAllhorairesLiaison($noLiaison, $date);
+    
+        // Si ce n'est PAS une requête POST, on affiche uniquement les liaisons
+        if (!$this->request->is('post')) {
+            $data['TitreDeLaPage'] = 'Voir les horaires';
+            return view('Templates/Header')
+                . view('Visiteur/vue_VoirHorairesSecteurs', $data)
+                . view('Templates/Footer');
         }
+    
+        // Si on est en POST, traitement de la demande de traversées
+        $noLiaison = $this->request->getPost('liaison');
+        $date = $this->request->getPost('date');
+    
+        // Appel au modèle pour récupérer les traversées correspondantes
+        $data['lesTraversees'] = $modTraversee->getAllhorairesLiaison($noLiaison, $date);
     
         $data['TitreDeLaPage'] = 'Voir les horaires';
     
         return view('Templates/Header')
             . view('Visiteur/vue_VoirHorairesSecteurs', $data)
             . view('Templates/Footer');
-
-
-    } // Fin voirhorairesSecteurs
+    }
+    
 
 
 

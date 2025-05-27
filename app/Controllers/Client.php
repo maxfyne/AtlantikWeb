@@ -39,6 +39,8 @@ class Client extends BaseController
                 . view('Templates/Footer');
         }
 
+        // Déclaration des règles de validation pour chaque champ du formulaire.
+
         $reglesValidation = [
             'txtNom' => 'required|string|max_length[60]',
             'txtPrenom' => 'required|string|max_length[60]',
@@ -59,6 +61,9 @@ class Client extends BaseController
                 . view('Templates/Footer');
         }
 
+
+        // Création d’un tableau avec les nouvelles données extraites du formulaire POST.
+        
         $donneesModifiees = [
             'Nom' => $this->request->getPost('txtNom'),
             'Prenom' => $this->request->getPost('txtPrenom'),
